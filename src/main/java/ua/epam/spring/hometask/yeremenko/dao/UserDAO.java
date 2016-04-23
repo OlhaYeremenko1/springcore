@@ -1,7 +1,9 @@
 package ua.epam.spring.hometask.yeremenko.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.epam.spring.hometask.yeremenko.domain.User;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -9,23 +11,19 @@ import java.util.List;
  */
 public class UserDAO {
 
+
+    @Autowired
+    @Resource(name = "usersList")
+    private List<User> usersList;
+
     /**
      * Gets users.
      *
      * @return the users
      */
-    public static List<User> getUsers() {
-        return users;
+    public List<User> getUsers() {
+        if (usersList == null)
+            throw new InstantiationError("Users DAO has not been instantiated");
+        return usersList;
     }
-
-    /**
-     * Sets users.
-     *
-     * @param users the users
-     */
-    public static void setUsers(List<User> users) {
-        UserDAO.users = users;
-    }
-
-    private static List<User> users;
 }

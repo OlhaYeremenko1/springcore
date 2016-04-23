@@ -15,13 +15,22 @@ public class DiscountStrategy {
 
     public byte getDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         if(airDateTime.isAfter( user.getBirthday())&& airDateTime.isBefore(user.getBirthday().plus(5, ChronoUnit.DAYS)))
-           return 5;
+           return getBirthdayDiscount();
         if ((user.getTickets().size() + 1) % 10 == 0 )
-            return 50;
+            return getTenthTicketDiscount();
         if (numberOfTickets % 10 == 0 )
-            return 50;
-        return 0;
+            return getTenthTicketDiscount();
+        return 100;
     }
+
+    public byte getBirthdayDiscount(){
+        return 5;
+    }
+
+    public byte getTenthTicketDiscount(){
+        return 50;
+    }
+
 
 
 }

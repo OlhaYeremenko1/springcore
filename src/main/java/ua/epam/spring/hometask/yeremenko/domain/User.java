@@ -154,7 +154,6 @@ public class User extends DomainObject {
         return true;
     }
 
-
     @Override
     public String toString() {
         return "User{fName='" + firstName + '\'' +

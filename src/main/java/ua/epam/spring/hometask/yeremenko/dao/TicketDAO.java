@@ -1,7 +1,9 @@
 package ua.epam.spring.hometask.yeremenko.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.epam.spring.hometask.yeremenko.domain.Ticket;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -9,14 +11,16 @@ import java.util.List;
  */
 public class TicketDAO {
 
-    public static  List<Ticket> getTickets() {
+    @Autowired
+    @Resource(name = "ticketsList")
+    private List<Ticket> tickets;
+
+    /**
+     * Gets tickets.
+     *
+     * @return the tickets
+     */
+    public List<Ticket> getTickets() {
         return tickets;
     }
-
-    public static void setTickets(List<Ticket> tickets) {
-        TicketDAO.tickets = tickets;
-    }
-
-    private static List<Ticket> tickets;
-
 }

@@ -1,8 +1,9 @@
 package ua.epam.spring.hometask.yeremenko.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.epam.spring.hometask.yeremenko.domain.Auditorium;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -10,21 +11,22 @@ import java.util.List;
  */
 public class AuditoriumDAO {
 
-    public static void setAuditoriums(List<Auditorium> auditoriums) {
-        AuditoriumDAO.auditoriums = auditoriums;
-    }
+    @Autowired
+    @Resource(name = "auditoriumsList")
+    private List<Auditorium> auditoriumsList;
 
-    /**
-     * The Auditoriums.
-     */
-    private static List<Auditorium> auditoriums;
+    public AuditoriumDAO() {
+    }
 
     /**
      * Gets auditoriums.
      *
      * @return the auditoriums
      */
-    public static List<Auditorium> getAuditoriums() {
-        return auditoriums;
+    public List<Auditorium> getAuditoriums() {
+
+        if (auditoriumsList == null)
+            throw new InstantiationError("Events DAO has not been instantiated");
+        return auditoriumsList;
     }
 }

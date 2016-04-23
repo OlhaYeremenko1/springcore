@@ -33,8 +33,6 @@
     </util:list>
 
 
-    <bean id="auditoriumsDao" class="ua.epam.spring.hometask.yeremenko.dao.AuditoriumDAO" >
-        <property name="auditoriums"  ref="auditoriumsList"/>
-    </bean>
+    <bean id="auditoriumsDao" class="ua.epam.spring.hometask.yeremenko.dao.AuditoriumDAO" />
 
 </beans>

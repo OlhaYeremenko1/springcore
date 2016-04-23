@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.yeremenko.service.implementation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.epam.spring.hometask.yeremenko.dao.TicketDAO;
 import ua.epam.spring.hometask.yeremenko.domain.Event;
 import ua.epam.spring.hometask.yeremenko.domain.EventRating;
@@ -18,15 +19,12 @@ import java.util.stream.Collectors;
  */
 public class BookingService implements IBookingService {
 
+    @Autowired
     private DiscountService discountService;
 
+    @Autowired
     private TicketDAO ticketDAO;
 
-
-
-    public void setDiscountService(DiscountService discountService) {
-        this.discountService = discountService;
-    }
 
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {

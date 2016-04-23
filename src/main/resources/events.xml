@@ -121,9 +121,7 @@
         <ref bean="event3"/>
     </util:list>
 
-    <bean id="eventDAO" class="ua.epam.spring.hometask.yeremenko.dao.EventDAO" >
-        <property name="events"  ref="eventsList"/>
-    </bean>
+    <bean id="eventDAO" class="ua.epam.spring.hometask.yeremenko.dao.EventDAO" />
 
     <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
      <property name="customEditors">

@@ -16,7 +16,6 @@
         <junit.version>4.12</junit.version>
         <aspectj.version>1.5.4</aspectj.version>
     </properties>
-
     <build>
         <plugins>
             <plugin>

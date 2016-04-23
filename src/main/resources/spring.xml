@@ -19,21 +19,14 @@
     <import resource="discount.xml"/>
 
     <util:list id="ticketsList" list-class="java.util.ArrayList" value-type="ua.epam.spring.hometask.yeremenko.domain.Ticket"/>
-
-
-    <bean id="ticketDao" name="ticketDao" class="ua.epam.spring.hometask.yeremenko.dao.TicketDAO">
-        <property name="tickets" ref="ticketsList"/>
-    </bean>
+    <bean id="ticketDao" name="ticketDao" class="ua.epam.spring.hometask.yeremenko.dao.TicketDAO"/>
 
     <bean id="auditoriumsService" name="auditoriumsService" class="ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumService"/>
     <bean id="eventService" name="eventService" class="ua.epam.spring.hometask.yeremenko.service.implementation.EventService"/>
     <bean id="userService" name="userService" class="ua.epam.spring.hometask.yeremenko.service.implementation.UserService"/>
-    <bean id="discountService" name="discountService" class="ua.epam.spring.hometask.yeremenko.service.implementation.DiscountService">
-        <property name="discountStrategy" ref="discountStrategy"/>
-    </bean>
-    <bean id="bookingService" name="bookingService" class="ua.epam.spring.hometask.yeremenko.service.implementation.BookingService">
-     <property name="discountService" ref="discountService"/>
-    </bean>
+    <bean id="discountService" name="discountService" class="ua.epam.spring.hometask.yeremenko.service.implementation.DiscountService"/>
+    <bean id="bookingService" name="bookingService" class="ua.epam.spring.hometask.yeremenko.service.implementation.BookingService"/>
+
 
     <bean id="dateTimeEditor" class="ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor"/>
 

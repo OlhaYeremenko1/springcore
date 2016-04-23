@@ -36,8 +36,6 @@
         </bean>
     </util:list>
 
-    <bean id="usersDao" class="ua.epam.spring.hometask.yeremenko.dao.UserDAO">
-        <property name="users" ref="usersList"/>
-    </bean>
+    <bean id="usersDao" class="ua.epam.spring.hometask.yeremenko.dao.UserDAO"/>
 
 </beans>
