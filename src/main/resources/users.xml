@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+ 		http://www.springframework.org/schema/util
+ 		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+
+    <util:list id="usersList" list-class="java.util.ArrayList" value-type="ua.com.epam.spring.task.entities.User">
+        <bean id="user1" class="ua.epam.spring.hometask.yeremenko.domain.User">
+            <property name="firstName" value="John1"/>
+            <property name="lastName" value="Bean1"/>
+            <property name="email" value="abc1@email.com"/>
+            <property name="birthday">
+                <value type="java.time.LocalDateTime">2000-01-03</value>
+            </property>
+        </bean>
+        <bean id="user2"  class="ua.epam.spring.hometask.yeremenko.domain.User">
+            <property name="firstName" value="John2"/>
+            <property name="lastName" value="Bean2"/>
+            <property name="email" value="abc2@email.com"/>
+            <property name="birthday">
+                <value type="java.time.LocalDateTime">2000-01-02</value>
+            </property>
+        </bean>
+        <bean id="user3"  class="ua.epam.spring.hometask.yeremenko.domain.User">
+            <property name="firstName" value="John3"/>
+            <property name="lastName" value="Bean3"/>
+            <property name="email" value="abc3@email.com"/>
+            <property name="birthday">
+                <value type="java.time.LocalDateTime">2000-01-01</value>
+            </property>
+        </bean>
+    </util:list>
+
+    <bean id="usersDao" class="ua.epam.spring.hometask.yeremenko.dao.UserDAO">
+        <property name="users" ref="usersList"/>
+    </bean>
+
+</beans>

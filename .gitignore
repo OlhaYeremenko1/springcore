@@ -2,3 +2,16 @@
 .classpath
 .project
 .settings
+bin
+build
+target
+out
+.springBeans
+.idea
+.shelf
+*.class
+*.log
+*.MF
+*.iml
+*.ipr
+*.iws
