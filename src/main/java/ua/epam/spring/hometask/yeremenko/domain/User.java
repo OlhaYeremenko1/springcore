@@ -185,6 +185,7 @@ public class User extends DomainObject {
                 ", email='" + email + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", tickets='" + tickets + '\'' +
+                ", lucky='" + lucky + '\'' +
                 '}';
     }
 }

@@ -1,9 +1,13 @@
 package ua.epam.spring.hometask.yeremenko;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import ua.epam.spring.hometask.yeremenko.aspects.CounterAspect;
+import ua.epam.spring.hometask.yeremenko.aspects.DiscountAspect;
+import ua.epam.spring.hometask.yeremenko.aspects.LuckyWinnerAspect;
 import ua.epam.spring.hometask.yeremenko.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.yeremenko.dao.EventDAO;
 import ua.epam.spring.hometask.yeremenko.dao.TicketDAO;
@@ -16,6 +20,9 @@ import ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumServic
 import ua.epam.spring.hometask.yeremenko.service.implementation.BookingService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.EventService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.UserService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Olha_Yeremenko on 4/25/2016.
@@ -99,6 +106,43 @@ public class AppConfig {
     public Ticket ticket() {
         return new Ticket();
     }
+
+
+    @Bean(name = "luckyWinnerAspect")
+    public LuckyWinnerAspect luckyWinnerAspect(){
+        return  new LuckyWinnerAspect();
+    }
+
+    @Bean(name = "counterAspect")
+    public CounterAspect counterAspect(){
+        return  new CounterAspect();
+    }
+
+    @Bean(name = "discountAspect")
+    public DiscountAspect discountAspect(){
+        return  new DiscountAspect();
+    }
+
+    @Bean(name = "counterName")
+    public Map<String, Integer> counterName(){
+        return new HashMap<>();
+    }
+
+    @Bean(name = "counterPrice")
+    public Map<Integer, Integer> counterPrice(){
+        return new HashMap<>();
+    }
+
+    @Bean(name = "totalDiscountCounter")
+    public Map<Double, Integer> totalDiscountCounter(){
+        return  new HashMap<>();
+    }
+
+    @Bean(name = "userDiscountCounter")
+    public Map<Double, Map<String , Integer>> userDiscountCounter(){
+        return  new HashMap<>();
+    }
+
 
 }
 

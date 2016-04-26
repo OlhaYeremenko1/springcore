@@ -41,6 +41,9 @@ public class ConsoleDialogUtils {
                 "  - get all events [9]\n" +
                 "  - get auditoriums [10]\n" +
                 "  - get purchased ticket for event [11]\n" +
+                "  - get event statistic[12]\n" +
+                "  - get discount statistic[13]\n" +
+                "  - check user is lucky[14]\n" +
                 "  - exit [0]\n" +
                 "Selected command: ");
     }

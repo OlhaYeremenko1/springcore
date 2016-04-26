@@ -31,7 +31,7 @@ public class BookingService implements IBookingService {
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
         byte discount = discountService.getDiscount(user, event, dateTime, seats.size());
-        double price = event.getBasePrice() * discount / 100 * seats.size();
+        double price = event.getTicketBasePrice() * discount / 100 * seats.size();
 
         int countVipSeats = (int) event.getAuditoriums().get(dateTime).countVipSeats(seats);
         int countAllSeats = event.getAuditoriums().get(dateTime).getAllSeats().size();
@@ -51,7 +51,7 @@ public class BookingService implements IBookingService {
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
         ticketDAO.addTickets(tickets);
         tickets.forEach(ticket -> {
-            if (!tickets.contains(ticket)) {
+            if (!ticketDAO.getTickets().contains(ticket)) {
                 ticket.getUser().getTickets().add(ticket);
             } else {
                 System.out.println(String.format("Ticket has already booked %s", ticket.toString()));

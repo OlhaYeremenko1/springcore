@@ -92,7 +92,7 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         int result = dateTime.compareTo(other.getDateTime());
 
         if (result == 0) {
-            result = event.getName().compareTo(other.getEvent().getName());
+            result = event.getEventName().compareTo(other.getEvent().getEventName());
         }
         if (result == 0) {
             result = Long.compare(seat, other.getSeat());
@@ -104,7 +104,7 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
     public String toString() {
         return "Ticket{" +
                 "user=" + user.getEmail() +
-                ", event=" + event.getName() +
+                ", event=" + event.getEventName() +
                 ", dateTime=" + dateTime +
                 ", seat=" + seat +
                 '}';

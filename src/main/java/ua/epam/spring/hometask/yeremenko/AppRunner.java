@@ -2,6 +2,9 @@ package ua.epam.spring.hometask.yeremenko;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.epam.spring.hometask.yeremenko.aspects.CounterAspect;
+import ua.epam.spring.hometask.yeremenko.aspects.DiscountAspect;
+import ua.epam.spring.hometask.yeremenko.aspects.LuckyWinnerAspect;
 import ua.epam.spring.hometask.yeremenko.domain.*;
 import ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.BookingService;
@@ -53,6 +56,15 @@ public class AppRunner {
 
     @Autowired
     private EventsDataCreator eventsDataCreator;
+
+    @Autowired
+    private LuckyWinnerAspect luckyWinnerAspect;
+
+    @Autowired
+    private CounterAspect counterAspect;
+
+    @Autowired
+    private DiscountAspect discountAspect;
 
     public void run(){
         userDataCreator.populateData();
@@ -136,7 +148,36 @@ public class AppRunner {
                 System.out.println("get purchased ticket for event..");
                 getPurchasedTicketsForEvent();
                 chooseUser();
+            case 12:
+                System.out.println("get event statistic..");
+                getEventByNameStatistics();
+                chooseUser();
+            case 13:
+                System.out.println("get discount statistic..");
+                getDiscountStatistics();
+                chooseUser();
+            case 14:
+                System.out.println("check is user lucky..");
+                checkIsUserLucky();
+                chooseUser();
+
                 break;
+        }
+    }
+
+    private void getEventByNameStatistics() {
+        Set<String> nameKeys = counterAspect.getNameCounter().keySet();
+        System.out.println("Event 'getByName' statistics");
+        for (String name : nameKeys) {
+            System.out.println("Event '" + name + "' got " + counterAspect.getNameCounter().get(name) + " times");
+        }
+    }
+
+    private void getDiscountStatistics() {
+        Set<Double> discountKeys = discountAspect.getTotalDiscountCounter().keySet();
+        System.out.println("Statistics for all discounts");
+        for (Double discount : discountKeys) {
+            System.out.println("Discount '" + discount + "' count is " + discountAspect.getTotalDiscountCounter().get(discount));
         }
     }
 

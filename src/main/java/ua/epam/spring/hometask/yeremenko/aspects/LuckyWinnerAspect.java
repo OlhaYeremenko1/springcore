@@ -11,10 +11,9 @@ import java.util.Set;
 
 
 @Aspect
-@Component
 public class LuckyWinnerAspect {
 
-    @Before("execution(public void bookTickets(..)) && args(tickets) && within(ua.epam.spring.hometask.yeremenko.service.implementation.BookingService))")
+    @Before("execution(public void bookTickets(@Nonnull Set<Ticket> tickets)) && args(tickets) && within(ua.epam.spring.hometask.yeremenko.service.implementation.BookingService))")
     private void luckyTicketBook(@Nonnull Set<Ticket> tickets) {
         Random randomno = new Random();
         tickets.forEach(ticket -> {

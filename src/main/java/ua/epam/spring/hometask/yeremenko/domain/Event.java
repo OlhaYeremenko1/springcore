@@ -111,7 +111,7 @@ public class Event extends DomainObject {
         return airDates.stream().anyMatch(dt -> dt.toLocalDate() == date);
     }
 
-    public String getName() {
+    public String getEventName() {
         return name;
     }
 
@@ -127,7 +127,7 @@ public class Event extends DomainObject {
         this.airDates = airDates;
     }
 
-    public double  getBasePrice() {
+    public double getTicketBasePrice() {
         return basePrice;
     }
 

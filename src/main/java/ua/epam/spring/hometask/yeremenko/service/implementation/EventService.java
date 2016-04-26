@@ -8,7 +8,6 @@ import ua.epam.spring.hometask.yeremenko.service.IEventService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.Resource;
 import java.util.Collection;
 
 /**
@@ -23,7 +22,7 @@ public class EventService implements IEventService {
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {
-        return eventDAO.getEvents().stream().filter(a -> a.getName().equals(name)).findFirst().get();
+        return eventDAO.getEvents().stream().filter(a -> a.getEventName().equals(name)).findFirst().get();
     }
 
     @Override
