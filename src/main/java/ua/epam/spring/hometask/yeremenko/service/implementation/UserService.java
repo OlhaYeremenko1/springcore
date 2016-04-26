@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.yeremenko.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.dao.UserDAO;
 import ua.epam.spring.hometask.yeremenko.domain.Ticket;
 import ua.epam.spring.hometask.yeremenko.domain.User;
@@ -14,8 +15,8 @@ import java.util.Set;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class UserService implements IUserService {
-
 
     @Autowired
     private UserDAO userDAO;
@@ -23,15 +24,13 @@ public class UserService implements IUserService {
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {
-        // FIXME: 2% what if user not found?
       User user= userDAO.getUsers().stream().filter(a -> a.getEmail().equals(email)).findAny().get();
         if(user!=null){
             return  user;
         }
         else{
-            System.out.println(String.format("User with email %s not found",email));
+            throw new IllegalArgumentException("The are no such user");
         }
-        return null;
     }
 
     @Override
@@ -69,4 +68,5 @@ public class UserService implements IUserService {
     public boolean isLuckyCheck(@Nonnull User object){
         return object.isLucky();
     }
+
 }

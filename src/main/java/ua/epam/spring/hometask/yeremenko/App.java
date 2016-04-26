@@ -1,28 +1,23 @@
 package ua.epam.spring.hometask.yeremenko;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.epam.spring.hometask.yeremenko.dao.EventDAO;
-import ua.epam.spring.hometask.yeremenko.domain.Auditorium;
-import ua.epam.spring.hometask.yeremenko.domain.Event;
-import ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class App {
 
-    public void setAppRunner(AppRunner appRunner) {
-        this.appRunner = appRunner;
-    }
-
+    @Autowired
     private AppRunner appRunner;
 
 
-
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
-        App app = (App) ctx.getBean("app");
+
+        AnnotationConfigApplicationContext ctx  = new AnnotationConfigApplicationContext(AppConfig.class);
+        App app = (App) ctx.getBean(App.class);
         app.appRunner.run();
         ctx.close();
     }

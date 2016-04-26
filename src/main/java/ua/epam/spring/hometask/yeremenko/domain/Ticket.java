@@ -1,11 +1,16 @@
 package ua.epam.spring.hometask.yeremenko.domain;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * @author Yuriy_Tkach
  */
+@Component
+@Scope("prototype")
 public class Ticket extends DomainObject implements Comparable<Ticket> {
 
     private User user;
@@ -21,6 +26,9 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         this.event = event;
         this.dateTime = dateTime;
         this.seat = seat;
+    }
+
+    public Ticket() {
     }
 
     public User getUser() {

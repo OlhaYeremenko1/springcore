@@ -1,5 +1,8 @@
 package ua.epam.spring.hometask.yeremenko.domain;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -7,6 +10,8 @@ import java.util.stream.LongStream;
 /**
  * @author Yuriy_Tkach
  */
+@Component
+@Scope("prototype")
 public class Auditorium {
 
     private String name;

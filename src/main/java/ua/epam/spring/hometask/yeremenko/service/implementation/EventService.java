@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.yeremenko.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.dao.EventDAO;
 import ua.epam.spring.hometask.yeremenko.domain.Event;
 import ua.epam.spring.hometask.yeremenko.service.IEventService;
@@ -13,11 +14,10 @@ import java.util.Collection;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class EventService implements IEventService {
 
-
     @Autowired
-    @Resource(name = "eventDAO")
     private EventDAO eventDAO;
 
     @Nullable

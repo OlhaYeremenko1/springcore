@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.yeremenko.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.domain.Event;
 import ua.epam.spring.hometask.yeremenko.domain.User;
 import ua.epam.spring.hometask.yeremenko.domain.strategies.BirthdayDiscountStrategy;
@@ -15,14 +16,13 @@ import java.time.LocalDateTime;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class DiscountService implements IDiscountService {
 
     @Autowired
-    @Resource(name = "birthdayDiscountStrategy")
     private BirthdayDiscountStrategy birthdayDiscountStrategy;
 
     @Autowired
-    @Resource(name = "everyTenDiscountStrategy")
     private EveryTenDiscountStrategy everyTenDiscountStrategy;
 
     @Override

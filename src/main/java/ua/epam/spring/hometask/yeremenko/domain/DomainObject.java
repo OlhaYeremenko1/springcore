@@ -1,10 +1,13 @@
 package ua.epam.spring.hometask.yeremenko.domain;
 
+import org.springframework.stereotype.Component;
+
 /**
  * The type Domain object.
  *
  * @author Yuriy_Tkach
  */
+@Component
 public class DomainObject {
 
     private Long id;

@@ -1,8 +1,11 @@
 package ua.epam.spring.hometask.yeremenko.utils;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+@Component
 public class ConsoleUtils {
 
     public static String readFromConsole() {

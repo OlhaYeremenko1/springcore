@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.yeremenko.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.dao.TicketDAO;
 import ua.epam.spring.hometask.yeremenko.domain.Event;
 import ua.epam.spring.hometask.yeremenko.domain.EventRating;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class BookingService implements IBookingService {
 
     @Autowired

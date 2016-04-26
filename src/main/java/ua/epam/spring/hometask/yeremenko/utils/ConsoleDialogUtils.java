@@ -1,8 +1,11 @@
 package ua.epam.spring.hometask.yeremenko.utils;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created by Olha_Yeremenko on 4/20/2016.
  */
+@Component
 public class ConsoleDialogUtils {
 
 

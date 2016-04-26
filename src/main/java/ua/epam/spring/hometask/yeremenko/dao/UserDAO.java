@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class UserDAO {
 
-
-    @Autowired
-    @Resource(name = "usersList")
     private List<User> usersList;
 
     /**
@@ -26,4 +23,9 @@ public class UserDAO {
             throw new InstantiationError("Users DAO has not been instantiated");
         return usersList;
     }
+
+    public void setUsersList(List<User> usersList) {
+        this.usersList = usersList;
+    }
+
 }

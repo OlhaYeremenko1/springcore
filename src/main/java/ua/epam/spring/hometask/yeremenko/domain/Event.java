@@ -1,7 +1,9 @@
 package ua.epam.spring.hometask.yeremenko.domain;
 
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.util.*;
 /**
  * @author Yuriy_Tkach
  */
+@Component
+@Scope("prototype")
 public class Event extends DomainObject {
 
     private String name;

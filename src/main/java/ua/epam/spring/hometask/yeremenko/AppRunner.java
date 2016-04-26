@@ -1,12 +1,15 @@
 package ua.epam.spring.hometask.yeremenko;
 
-import jdk.nashorn.internal.runtime.ECMAException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.domain.*;
 import ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.BookingService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.EventService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.UserService;
+import ua.epam.spring.hometask.yeremenko.testdata.AuditoriumDataCreator;
+import ua.epam.spring.hometask.yeremenko.testdata.EventsDataCreator;
+import ua.epam.spring.hometask.yeremenko.testdata.UserDataCreator;
 import ua.epam.spring.hometask.yeremenko.utils.ConsoleUtils;
 import ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor;
 
@@ -19,6 +22,7 @@ import static ua.epam.spring.hometask.yeremenko.utils.ConsoleUtils.*;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class AppRunner {
     /**
      * Instantiates a new App runner.
@@ -28,60 +32,32 @@ public class AppRunner {
 
     @Autowired
     private AuditoriumService auditoriumService;
+
     @Autowired
     private EventService eventService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private BookingService bookingService;
+
     @Autowired
     private CustomLocalDateTimeEditor dateTimeEditor;
 
-//    public void setDateTimeEditor(CustomLocalDateTimeEditor dateTimeEditor) {
-//        this.dateTimeEditor = dateTimeEditor;
-//    }
-//
-//    public void setBookingService(BookingService bookingService) {
-//        this.bookingService = bookingService;
-//    }
-//
-//    /**
-//     * Sets event service.
-//     *
-//     * @param eventService the event service
-//     */
-//    public void setEventService(EventService eventService) {
-//        this.eventService = eventService;
-//    }
-//
-//    /**
-//     * Sets auditorium service.
-//     *
-//     * @param auditoriumService the auditorium service
-//     */
-//    public void setAuditoriumService(AuditoriumService auditoriumService) {
-//        this.auditoriumService = auditoriumService;
-//    }
-//
-//    /**
-//     * Gets user dao.
-//     *
-//     * @return the user dao
-//     */
-//    public UserService getUserService() {
-//        return userService;
-//    }
-//
-//    /**
-//     * Sets user dao.
-//     *
-//     * @param userService the user dao
-//     */
-//    public void setUserService(UserService userService) {
-//        this.userService = userService;
-//    }
+    @Autowired
+    private UserDataCreator userDataCreator;
+
+    @Autowired
+    private AuditoriumDataCreator auditoriumDataCreator;
+
+    @Autowired
+    private EventsDataCreator eventsDataCreator;
 
     public void run(){
+        userDataCreator.populateData();
+        auditoriumDataCreator.populateData();
+        eventsDataCreator.populateData();
         chooseUser();
     }
 
@@ -377,7 +353,6 @@ public class AppRunner {
         double finalPrice= bookingService.getTicketsPrice(event,date,user,seatSet);
         System.out.println(String.format("You buy tickets for %s \\$",finalPrice));
     }
-
 
     private void checkIsUserLucky() {
         System.out.println("Please enter user email");

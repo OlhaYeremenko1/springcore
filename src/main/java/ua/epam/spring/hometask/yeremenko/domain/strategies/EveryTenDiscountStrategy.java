@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Component
 public class EveryTenDiscountStrategy implements IDiscountStrategy {
 
+
     @Override
     public byte getDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         if ((user.getTickets().size() + 1) % 10 == 0)

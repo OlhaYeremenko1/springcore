@@ -11,27 +11,12 @@ import java.util.Set;
  */
 public class TicketDAO {
 
-    @Autowired
-    @Resource(name = "ticketsList")
     private Set<Ticket> tickets;
 
-    /**
-     * Gets tickets.
-     *
-     * @return the tickets
-     */
     public Set<Ticket> getTickets() {
         return tickets;
     }
 
-    /**
-     * Add tickets.
-     *
-     * @param ticket the ticket
-     */
-    public void addTicket(Ticket ticket){
-        tickets.add(ticket);
-    }
     public void addTickets(Set<Ticket> bookedTickets){
         getTickets().addAll(bookedTickets);
     }

@@ -1,5 +1,7 @@
 package ua.epam.spring.hometask.yeremenko.domain;
 
+import org.springframework.stereotype.Component;
+
 /**
  * The enum Event rating.
  *
