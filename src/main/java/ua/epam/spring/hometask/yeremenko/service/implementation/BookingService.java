@@ -28,18 +28,18 @@ public class BookingService implements IBookingService {
 
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
-        byte discount=discountService.getDiscount(user,event,dateTime,seats.size());
-        double price= event.getBasePrice()*discount/100*seats.size();
+        byte discount = discountService.getDiscount(user, event, dateTime, seats.size());
+        double price = event.getBasePrice() * discount / 100 * seats.size();
 
-        int countVipSeats = (int)event.getAuditoriums().get(dateTime).countVipSeats(seats);
+        int countVipSeats = (int) event.getAuditoriums().get(dateTime).countVipSeats(seats);
         int countAllSeats = event.getAuditoriums().get(dateTime).getAllSeats().size();
 
-        double finalPrice=0;
-        if(countAllSeats>=seats.size()){
-            finalPrice=seats.size()*price+countVipSeats*price;
+        double finalPrice = 0;
+        if (countAllSeats >= seats.size()) {
+            finalPrice = seats.size() * price + countVipSeats * price;
 
-            if(event.getRating().equals(EventRating.HIGH)){
-                finalPrice*=1.5;
+            if (event.getRating().equals(EventRating.HIGH)) {
+                finalPrice *= 1.5;
             }
         }
         return finalPrice;
@@ -47,15 +47,24 @@ public class BookingService implements IBookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-       tickets.forEach(ticket -> {
-         ticket.getUser().getTickets().add(ticket);
-       });
+        ticketDAO.addTickets(tickets);
+        tickets.forEach(ticket -> {
+            if (!tickets.contains(ticket)) {
+                ticket.getUser().getTickets().add(ticket);
+            } else {
+                System.out.println(String.format("Ticket has already booked %s", ticket.toString()));
+            }
+        });
     }
 
     @Nonnull
     @Override
     public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
-        return ticketDAO.getTickets().stream().filter(ticket -> ticket.getEvent().equals(event) && ticket.getDateTime().equals(dateTime)).collect(Collectors.toSet());
+        Set<Ticket> ticketsForAllDates = ticketDAO.getTickets().stream().filter(ticket -> ticket.getEvent()
+                .equals(event)).collect(Collectors.toSet());
+        Set<Ticket> needed = ticketsForAllDates.stream().filter(ticket -> ticket.getDateTime()
+                .equals(dateTime)).collect(Collectors.toSet());
+        return needed;
     }
 
 }

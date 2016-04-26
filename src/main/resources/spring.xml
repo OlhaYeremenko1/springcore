@@ -12,6 +12,7 @@
  		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <context:annotation-config/>
+    <context:component-scan base-package="ua.epam.spring.hometask.yeremenko"/>
 
     <import resource="auditoriums.xml"/>
     <import resource="events.xml"/>
@@ -31,10 +32,6 @@
     <bean id="dateTimeEditor" class="ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor"/>
 
     <bean id="appRunner" name="appRunner" class="ua.epam.spring.hometask.yeremenko.AppRunner">
-        <property name="auditoriumService" ref="auditoriumsService"/>
-        <property name="eventService" ref="eventService"/>
-        <property name="userService" ref="userService"/>
-        <property name="dateTimeEditor" ref="dateTimeEditor"/>
     </bean>
 
     <bean name="app" class="ua.epam.spring.hometask.yeremenko.App">

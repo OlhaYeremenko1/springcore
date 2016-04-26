@@ -40,4 +40,9 @@ public class AuditoriumService implements IAuditoriumService {
     public Set<Long> getVipSeats(Auditorium auditorium) {
         return auditorium.getVipSeats();
     }
+
+    public void setAuditoriumsDAO(AuditoriumDAO auditoriumsDAO) {
+        this.auditoriumsDAO = auditoriumsDAO;
+    }
+
 }

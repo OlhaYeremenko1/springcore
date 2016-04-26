@@ -123,7 +123,7 @@
 
     <bean id="eventDAO" class="ua.epam.spring.hometask.yeremenko.dao.EventDAO" />
 
-    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+    <bean class="org.springframework.beans.factory.configuration.CustomEditorConfigurer">
      <property name="customEditors">
          <map>
             <entry key="java.time.LocalDateTime" value="ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor" />

@@ -9,7 +9,7 @@
  		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 
-    <util:list id="usersList" list-class="java.util.ArrayList" value-type="ua.com.epam.spring.task.entities.User">
+    <util:list id="usersList" list-class="java.util.ArrayList" value-type="ua.epam.spring.hometask.yeremenko.domain.User">
         <bean id="user1" class="ua.epam.spring.hometask.yeremenko.domain.User">
             <property name="firstName" value="John1"/>
             <property name="lastName" value="Bean1"/>

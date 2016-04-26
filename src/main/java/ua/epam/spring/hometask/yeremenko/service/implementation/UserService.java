@@ -23,7 +23,15 @@ public class UserService implements IUserService {
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {
-        return userDAO.getUsers().stream().filter(a -> a.getEmail().equals(email)).findAny().get();
+        // FIXME: 2% what if user not found?
+      User user= userDAO.getUsers().stream().filter(a -> a.getEmail().equals(email)).findAny().get();
+        if(user!=null){
+            return  user;
+        }
+        else{
+            System.out.println(String.format("User with email %s not found",email));
+        }
+        return null;
     }
 
     @Override
@@ -56,5 +64,9 @@ public class UserService implements IUserService {
      */
     public Set<Ticket> getBookedTickets(@Nonnull User object) {
         return object.getTickets();
+    }
+
+    public boolean isLuckyCheck(@Nonnull User object){
+        return object.isLucky();
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class AuditoriumDAO {
 
+
     @Autowired
     @Resource(name = "auditoriumsList")
     private List<Auditorium> auditoriumsList;
@@ -28,5 +29,9 @@ public class AuditoriumDAO {
         if (auditoriumsList == null)
             throw new InstantiationError("Events DAO has not been instantiated");
         return auditoriumsList;
+    }
+
+    public void setAuditoriumsList(List<Auditorium> auditoriumsList) {
+        this.auditoriumsList = auditoriumsList;
     }
 }

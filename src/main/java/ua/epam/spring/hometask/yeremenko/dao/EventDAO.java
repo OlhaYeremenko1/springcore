@@ -15,7 +15,6 @@ public class EventDAO {
      * The Events.
      */
     @Autowired
-    @Resource(name = "eventsList")
     public List<Event> events;
 
     /**

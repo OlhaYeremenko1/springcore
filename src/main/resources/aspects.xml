@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+ 		http://www.springframework.org/schema/util
+ 		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <!--<util:map id="specUserDiscountCounter" map-class="java.util.HashMap" key-type="java.lang.Double" value-type="java.util.TreeMap"/>-->
+    <!--<util:map id="totalDiscountCounter" map-class="java.util.HashMap" key-type="java.lang.Double" value-type="java.lang.Integer"/>-->
+
+    <bean name="discountAspect" class="ua.epam.spring.hometask.yeremenko.aspects.DiscountAspect"/>
+
+    <!--<util:map id="nameCounter" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Integer"/>-->
+    <!--<util:map id="priceCounter" map-class="java.util.HashMap" key-type="java.lang.Integer" value-type="java.lang.Integer"/>-->
+
+    <!--<bean name="counterAspect" class="ua.com.epam.spring.task.aspects.CounterAspect"/>-->
+
+    <bean name="luckyWinnerAspect" class="ua.epam.spring.hometask.yeremenko.aspects.LuckyWinnerAspect"/>
+
+</beans>

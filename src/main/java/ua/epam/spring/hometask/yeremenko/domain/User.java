@@ -20,6 +20,25 @@ public class User extends DomainObject {
 
     private LocalDateTime birthday;
 
+    private boolean lucky;
+
+    /**
+     * Is lucky boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isLucky() {
+        return lucky;
+    }
+
+    /**
+     * Sets lucky.
+     *
+     * @param lucky the lucky
+     */
+    public void setLucky(boolean lucky) {
+        this.lucky = lucky;
+    }
 
     /**
      * Gets birthday.

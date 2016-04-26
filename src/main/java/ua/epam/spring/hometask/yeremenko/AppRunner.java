@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.yeremenko;
 
 import jdk.nashorn.internal.runtime.ECMAException;
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.epam.spring.hometask.yeremenko.domain.*;
 import ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.BookingService;
@@ -25,56 +26,60 @@ public class AppRunner {
     public AppRunner() {
     }
 
+    @Autowired
     private AuditoriumService auditoriumService;
+    @Autowired
     private EventService eventService;
+    @Autowired
     private UserService userService;
+    @Autowired
     private BookingService bookingService;
-
+    @Autowired
     private CustomLocalDateTimeEditor dateTimeEditor;
 
-    public void setDateTimeEditor(CustomLocalDateTimeEditor dateTimeEditor) {
-        this.dateTimeEditor = dateTimeEditor;
-    }
-
-    public void setBookingService(BookingService bookingService) {
-        this.bookingService = bookingService;
-    }
-
-    /**
-     * Sets event service.
-     *
-     * @param eventService the event service
-     */
-    public void setEventService(EventService eventService) {
-        this.eventService = eventService;
-    }
-
-    /**
-     * Sets auditorium service.
-     *
-     * @param auditoriumService the auditorium service
-     */
-    public void setAuditoriumService(AuditoriumService auditoriumService) {
-        this.auditoriumService = auditoriumService;
-    }
-
-    /**
-     * Gets user dao.
-     *
-     * @return the user dao
-     */
-    public UserService getUserService() {
-        return userService;
-    }
-
-    /**
-     * Sets user dao.
-     *
-     * @param userService the user dao
-     */
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+//    public void setDateTimeEditor(CustomLocalDateTimeEditor dateTimeEditor) {
+//        this.dateTimeEditor = dateTimeEditor;
+//    }
+//
+//    public void setBookingService(BookingService bookingService) {
+//        this.bookingService = bookingService;
+//    }
+//
+//    /**
+//     * Sets event service.
+//     *
+//     * @param eventService the event service
+//     */
+//    public void setEventService(EventService eventService) {
+//        this.eventService = eventService;
+//    }
+//
+//    /**
+//     * Sets auditorium service.
+//     *
+//     * @param auditoriumService the auditorium service
+//     */
+//    public void setAuditoriumService(AuditoriumService auditoriumService) {
+//        this.auditoriumService = auditoriumService;
+//    }
+//
+//    /**
+//     * Gets user dao.
+//     *
+//     * @return the user dao
+//     */
+//    public UserService getUserService() {
+//        return userService;
+//    }
+//
+//    /**
+//     * Sets user dao.
+//     *
+//     * @param userService the user dao
+//     */
+//    public void setUserService(UserService userService) {
+//        this.userService = userService;
+//    }
 
     public void run(){
         chooseUser();
@@ -202,7 +207,13 @@ public class AppRunner {
         System.out.println("Enter event day (dd-MM-yyyy): ");
        LocalDateTime date= dateTimeEditor.parseText(readFromConsole());
         try{
-            bookingService.getPurchasedTicketsForEvent(event, date).forEach(ticket -> System.out.println(ticket.toString()));
+           Set<Ticket> booked= bookingService.getPurchasedTicketsForEvent(event, date);
+            if(booked.isEmpty()){
+                System.out.println("There are no tickets");
+            }
+            else {
+                booked.forEach(ticket -> System.out.println(ticket.toString()));
+            }
         }catch (NullPointerException e){
             System.out.println("There are no tickets");
         }
@@ -345,14 +356,14 @@ public class AppRunner {
                     seat -> {
                         Ticket ticket = new Ticket(user, event, date, seat);
                         tickets.add(ticket);
-                        System.out.println(String.format("Ticket %s booked", ticket.toString()));
+                        System.out.println(String.format("Ticket %s created", ticket.toString()));
                     }
             );
                 bookingService.bookTickets(tickets);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + "\nPlease enter user valid data.");
-            getUserByEmail();
+            bookTicket();
         }
     }
 
@@ -366,6 +377,15 @@ public class AppRunner {
         double finalPrice= bookingService.getTicketsPrice(event,date,user,seatSet);
         System.out.println(String.format("You buy tickets for %s \\$",finalPrice));
     }
+
+
+    private void checkIsUserLucky() {
+        System.out.println("Please enter user email");
+        User user= getUserByEmail();
+            if (userService.isLuckyCheck(user))
+                System.out.println("User is lucky");
+            System.out.println("User no lucky");
+        }
 
 
 }
