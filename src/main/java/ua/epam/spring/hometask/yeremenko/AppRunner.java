@@ -148,26 +148,12 @@ public class AppRunner {
                 System.out.println("get purchased ticket for event..");
                 getPurchasedTicketsForEvent();
                 chooseUser();
-            case 12:
-                System.out.println("get event statistic..");
-                getEventByNameStatistics();
-                chooseUser();
-            case 13:
-                System.out.println("get discount statistic..");
-                getDiscountStatistics();
-                chooseUser();
-            case 14:
-                System.out.println("check is user lucky..");
-                checkIsUserLucky();
-                chooseUser();
-
-                break;
         }
     }
 
     private void getEventByNameStatistics() {
         Set<String> nameKeys = counterAspect.getNameCounter().keySet();
-        System.out.println("Event 'getByName' statistics");
+        System.out.println("Event statistics");
         for (String name : nameKeys) {
             System.out.println("Event '" + name + "' got " + counterAspect.getNameCounter().get(name) + " times");
         }

@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.domain.User;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.Map;
  * Created by Olha_Yeremenko on 4/25/2016.
  */
 @Aspect
+@Component
 public class DiscountAspect {
 
     @Pointcut("execution(private double getDiscount(..))")

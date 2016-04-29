@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class AuditoriumDAO {
 
     private List<Auditorium> auditoriumsList;

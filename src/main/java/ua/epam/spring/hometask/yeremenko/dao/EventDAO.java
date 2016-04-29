@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.yeremenko.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.domain.Auditorium;
 import ua.epam.spring.hometask.yeremenko.domain.Event;
 import ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor;
@@ -12,6 +13,7 @@ import java.util.*;
 /**
  * Created by Olha_Yeremenko on 4/19/2016.
  */
+@Component
 public class EventDAO {
 
     @Autowired

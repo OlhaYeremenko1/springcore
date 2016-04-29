@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  * Created by Olha_Yeremenko on 4/26/2016.
  */
 @Aspect
+@Component
 public class CounterAspect {
 
 
