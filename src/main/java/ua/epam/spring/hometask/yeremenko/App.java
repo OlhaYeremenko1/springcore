@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.yeremenko;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
+import ua.epam.spring.hometask.yeremenko.jdbc.DBManager;
 
 /**
  * Created by Olha_Yeremenko on 4/19/2016.

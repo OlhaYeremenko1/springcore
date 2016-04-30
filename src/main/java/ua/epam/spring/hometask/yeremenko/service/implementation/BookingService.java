@@ -8,6 +8,7 @@ import ua.epam.spring.hometask.yeremenko.domain.EventRating;
 import ua.epam.spring.hometask.yeremenko.domain.Ticket;
 import ua.epam.spring.hometask.yeremenko.domain.User;
 import ua.epam.spring.hometask.yeremenko.service.IBookingService;
+import ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,6 +27,9 @@ public class BookingService implements IBookingService {
 
     @Autowired
     private TicketDAO ticketDAO;
+
+    @Autowired
+    private CustomLocalDateTimeEditor dateTimeEditor;
 
 
     @Override
@@ -49,9 +53,10 @@ public class BookingService implements IBookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        ticketDAO.addTickets(tickets);
         tickets.forEach(ticket -> {
-            if (!ticketDAO.getTickets().contains(ticket)) {
+            if (!ticketDAO.getAllTickets().contains(ticket)) {
+                String date=ticket.getDateTime().toString().split("T")[0].toString();
+                ticketDAO.addTicket(ticket.getUser().getEmail(),ticket.getEvent().getEventName(),date,(int)ticket.getSeat());
                 ticket.getUser().getTickets().add(ticket);
             } else {
                 System.out.println(String.format("Ticket has already booked %s", ticket.toString()));
@@ -62,11 +67,15 @@ public class BookingService implements IBookingService {
     @Nonnull
     @Override
     public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
-        Set<Ticket> ticketsForAllDates = ticketDAO.getTickets().stream().filter(ticket -> ticket.getEvent()
+        Set<Ticket> ticketsForAllDates = ticketDAO.getAllTickets().stream().filter(ticket -> ticket.getEvent()
                 .equals(event)).collect(Collectors.toSet());
         Set<Ticket> needed = ticketsForAllDates.stream().filter(ticket -> ticket.getDateTime()
                 .equals(dateTime)).collect(Collectors.toSet());
         return needed;
+    }
+
+    public void addTicket(String eventName, String date, String userEmail,int seat) {
+         ticketDAO.addTicket(userEmail,eventName,date,seat);
     }
 
 }

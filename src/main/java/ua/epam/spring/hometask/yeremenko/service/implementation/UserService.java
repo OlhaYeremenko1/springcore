@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.yeremenko.dao.UserDAO;
 import ua.epam.spring.hometask.yeremenko.domain.Ticket;
 import ua.epam.spring.hometask.yeremenko.domain.User;
+import ua.epam.spring.hometask.yeremenko.jdbc.SQlQuery;
 import ua.epam.spring.hometask.yeremenko.service.IUserService;
 
 import javax.annotation.Nonnull;
@@ -24,11 +25,10 @@ public class UserService implements IUserService {
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {
-      User user= userDAO.getUsers().stream().filter(a -> a.getEmail().equals(email)).findAny().get();
-        if(user!=null){
-            return  user;
-        }
-        else{
+        User user = userDAO.getUsers().stream().filter(a -> a.getEmail().equals(email)).findAny().get();
+        if (user != null) {
+            return user;
+        } else {
             throw new IllegalArgumentException("The are no such user");
         }
     }
@@ -65,8 +65,16 @@ public class UserService implements IUserService {
         return object.getTickets();
     }
 
-    public boolean isLuckyCheck(@Nonnull User object){
+    public boolean isLuckyCheck(@Nonnull User object) {
         return object.isLucky();
+    }
+
+    public void addUser(String firstName, String lastName, String birthDate, String email, String tickets) {
+        userDAO.addUser(firstName, lastName, birthDate, email, tickets);
+    }
+
+    public void addUser(String firstName, String lastName, String birthDate, String email) {
+        userDAO.addUser(firstName, lastName, birthDate, email);
     }
 
 }

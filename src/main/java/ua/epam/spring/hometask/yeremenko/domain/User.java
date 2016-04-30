@@ -15,7 +15,8 @@ import java.util.TreeSet;
  */
 @Component
 @Scope("prototype")
-public class User extends DomainObject {
+public class
+User extends DomainObject {
 
     private String firstName;
 

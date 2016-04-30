@@ -22,13 +22,6 @@ public class AuditoriumService implements IAuditoriumService {
     @Autowired
     private AuditoriumDAO auditoriumsDAO;
 
-    @Autowired
-    private Auditorium redAuditorium;
-
-    @Autowired
-    private Auditorium blueAuditorium;
-
-
     @Nonnull
     @Override
     public List<Auditorium> getAll() {
@@ -38,22 +31,11 @@ public class AuditoriumService implements IAuditoriumService {
     @Nullable
     @Override
     public Auditorium getByName(@Nonnull String name) {
-        return getAll().stream().filter(a -> a.getName().equals(name)).findAny().get();
+        return auditoriumsDAO.getAuditoriumByName(name).get(0);
     }
 
-    @Nullable
-    public Long getSeatsNumber(Auditorium auditorium) {
-        return auditorium.getNumberOfSeats();
+    public  void addAuditorium(String name, int seats, String vipseats){
+        auditoriumsDAO.addAuditorim(name,seats,vipseats);
     }
-
-    @Nullable
-    public Set<Long> getVipSeats(Auditorium auditorium) {
-        return auditorium.getVipSeats();
-    }
-
-    public void setAuditoriumsDAO(AuditoriumDAO auditoriumsDAO) {
-        this.auditoriumsDAO = auditoriumsDAO;
-    }
-
 
 }

@@ -6,13 +6,11 @@ import ua.epam.spring.hometask.yeremenko.aspects.CounterAspect;
 import ua.epam.spring.hometask.yeremenko.aspects.DiscountAspect;
 import ua.epam.spring.hometask.yeremenko.aspects.LuckyWinnerAspect;
 import ua.epam.spring.hometask.yeremenko.domain.*;
+import ua.epam.spring.hometask.yeremenko.jdbc.DBManager;
 import ua.epam.spring.hometask.yeremenko.service.implementation.AuditoriumService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.BookingService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.EventService;
 import ua.epam.spring.hometask.yeremenko.service.implementation.UserService;
-import ua.epam.spring.hometask.yeremenko.testdata.AuditoriumDataCreator;
-import ua.epam.spring.hometask.yeremenko.testdata.EventsDataCreator;
-import ua.epam.spring.hometask.yeremenko.testdata.UserDataCreator;
 import ua.epam.spring.hometask.yeremenko.utils.ConsoleUtils;
 import ua.epam.spring.hometask.yeremenko.utils.CustomLocalDateTimeEditor;
 
@@ -34,6 +32,9 @@ public class AppRunner {
     }
 
     @Autowired
+    private DBManager dbManager;
+
+    @Autowired
     private AuditoriumService auditoriumService;
 
     @Autowired
@@ -49,15 +50,6 @@ public class AppRunner {
     private CustomLocalDateTimeEditor dateTimeEditor;
 
     @Autowired
-    private UserDataCreator userDataCreator;
-
-    @Autowired
-    private AuditoriumDataCreator auditoriumDataCreator;
-
-    @Autowired
-    private EventsDataCreator eventsDataCreator;
-
-    @Autowired
     private LuckyWinnerAspect luckyWinnerAspect;
 
     @Autowired
@@ -66,11 +58,20 @@ public class AppRunner {
     @Autowired
     private DiscountAspect discountAspect;
 
-    public void run(){
-        userDataCreator.populateData();
-        auditoriumDataCreator.populateData();
-        eventsDataCreator.populateData();
+
+    private void addTestData(){
+        auditoriumService.addAuditorium("red", 30, "10,11,12");
+        auditoriumService.addAuditorium("green", 60, "50,51,52,53,54,55");
+        eventService.addEvent("event1", 120, EventRating.HIGH, "2010-01-01,2010-01-02", "2010-01-01/red,2010-01-02/green");
+        userService.addUser("fname1", "lname1", "1995-01-02", "email1");
+        bookingService.addTicket("email1", "event1", "2010-01-01", 10);
+
+    }
+    public void run() {
+        dbManager.init();
+        addTestData();
         chooseUser();
+
     }
 
     private void chooseUser() {
@@ -79,19 +80,19 @@ public class AppRunner {
         int selectedCommand;
         if (userRole.equals("admin")) {
             displayAdminCommands();
-            selectedCommand=readIntFromConsole();
+            selectedCommand = readIntFromConsole();
             processAdminActionds(selectedCommand);
         }
         if (userRole.equals("user")) {
-           displayUserCommands();
-            selectedCommand=readIntFromConsole();
+            displayUserCommands();
+            selectedCommand = readIntFromConsole();
             processUserActions(selectedCommand);
         }
     }
 
     ///ADMIN ACTIONS
-    private void processAdminActionds(int commandId){
-        switch (commandId){
+    private void processAdminActionds(int commandId) {
+        switch (commandId) {
             case 0:
                 System.out.println("Exiting...");
                 break;
@@ -167,7 +168,7 @@ public class AppRunner {
         }
     }
 
-    private void processUserActions(int commandId){
+    private void processUserActions(int commandId) {
         switch (commandId) {
             case 0:
                 System.out.println("Exiting...");
@@ -204,26 +205,25 @@ public class AppRunner {
         }
     }
 
-    private void getPurchasedTicketsForEvent(){
+    private void getPurchasedTicketsForEvent() {
         System.out.println("Enter event name: ");
-        Event event=eventService.getByName(readFromConsole());
+        Event event = eventService.getByName(readFromConsole());
         System.out.println("Enter event day (dd-MM-yyyy): ");
-       LocalDateTime date= dateTimeEditor.parseText(readFromConsole());
-        try{
-           Set<Ticket> booked= bookingService.getPurchasedTicketsForEvent(event, date);
-            if(booked.isEmpty()){
+        LocalDateTime date = dateTimeEditor.parseText(readFromConsole());
+        try {
+            Set<Ticket> booked = bookingService.getPurchasedTicketsForEvent(event, date);
+            if (booked.isEmpty()) {
                 System.out.println("There are no tickets");
-            }
-            else {
+            } else {
                 booked.forEach(ticket -> System.out.println(ticket.toString()));
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("There are no tickets");
         }
     }
 
     private void removeUser() {
-        User user=getUserByEmail();
+        User user = getUserByEmail();
         userService.remove(user);
     }
 
@@ -238,7 +238,7 @@ public class AppRunner {
         String birthDate = ConsoleUtils.readFromConsole();
 
         try {
-          User newUser=  new User();
+            User newUser = new User();
             newUser.setFirstName(fname);
             newUser.setLastName(lname);
             newUser.setEmail(userEmail);
@@ -254,7 +254,7 @@ public class AppRunner {
         userService.getAll().forEach(e -> System.out.println(e.toString()));
     }
 
-    private User getUserByEmail(){
+    private User getUserByEmail() {
         System.out.println("Enter user email: ");
         String userEmail = ConsoleUtils.readFromConsole();
         User user = null;
@@ -269,31 +269,20 @@ public class AppRunner {
     }
 
     private void createEvent() {
-        try{
-        Event newEvent=new Event();
-        System.out.println("Enter event name:");
-        newEvent.setName(readFromConsole());
-        System.out.println("Enter event base ticket price");
-        newEvent.setBasePrice(readIntFromConsole());
-        System.out.println("Enter rating of event (HIGH, MID, LOW");
-        newEvent.setRating( EventRating.valueOf(readFromConsole()));
-        System.out.println("Enter air dates (yyyy-MM-dd) with separator ',': ");
-            List<String> list = new ArrayList<>(Arrays.asList(readFromConsole().split(",")));
-            NavigableSet<LocalDateTime> airdates = new TreeSet<>();
-            for (String sdate : list) {
-                LocalDateTime ldt=dateTimeEditor.parseText(sdate);
-                airdates.add(ldt);
-            }
-        newEvent.setAirDates(airdates);
+        try {
+            System.out.println("Enter event name:");
+            String eventName= readFromConsole();
+            System.out.println("Enter event base ticket price");
+            double basePrice = readIntFromConsole();
+            System.out.println("Enter rating of event (HIGH, MID, LOW");
+            EventRating rating=EventRating.valueOf(readFromConsole());
+            System.out.println("Enter air dates (yyyy-MM-dd) with separator ',': ");
+            String dates =  readFromConsole();
 
-        System.out.println("Create schedule. Enter number of day you want to add");
-        TreeMap<LocalDateTime,Auditorium> scheduleMap= new TreeMap<>();
-            int count=readIntFromConsole();
-        for (int i = 0; i < count; i++) {
-            addToSchedule(scheduleMap);
-        }
-        newEvent.setAuditoriums(scheduleMap);
-        eventService.save(newEvent);
+            System.out.println("Create schedule. Enter date/auditorium name yyyy-MM-dd/auditorium name");
+            String auditoriums =  readFromConsole();
+            TreeMap<LocalDateTime, Auditorium> scheduleMap = new TreeMap<>();
+            eventService.addEvent(eventName,basePrice,rating,dates,auditoriums);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + "\nPlease enter event info again.");
@@ -301,13 +290,13 @@ public class AppRunner {
         }
     }
 
-    private void addToSchedule( TreeMap<LocalDateTime,Auditorium> scheduleMap){
+    private void addToSchedule(TreeMap<LocalDateTime, Auditorium> scheduleMap) {
         System.out.println("Add day to schedule: ");
         System.out.println("Enter date (yyyy-MM-dd) :");
-        LocalDateTime date=dateTimeEditor.parseText(readFromConsole());
+        LocalDateTime date = dateTimeEditor.parseText(readFromConsole());
         System.out.println("Enter auditorium name:");
         Auditorium auditorium = auditoriumService.getByName(readFromConsole());
-        scheduleMap.put(date,auditorium);
+        scheduleMap.put(date, auditorium);
         System.out.println(scheduleMap.get(date).toString());
     }
 
@@ -315,18 +304,18 @@ public class AppRunner {
         System.out.println("Enter event name:");
         String eventName = readFromConsole();
         try {
-            eventService.remove(eventService.getByName(eventName));
+            eventService.removeEvent(eventService.getByName(eventName));
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + "\nPlease enter event name again.");
             removeEvent();
         }
     }
 
-    private void getAllEvents(){
+    private void getAllEvents() {
         eventService.getAll().forEach(event -> System.out.println(event.toString()));
     }
 
-    private void getAllAuditoriums(){
+    private void getAllAuditoriums() {
         auditoriumService.getAll().forEach(auditorium -> System.out.println(auditorium.toString()));
     }
 
@@ -336,7 +325,7 @@ public class AppRunner {
         Event event = null;
         try {
             event = eventService.getByName(eventName);
-            if(event!=null) {
+            if (event != null) {
                 System.out.println(event.toString());
             }
         } catch (IllegalArgumentException e) {
@@ -346,7 +335,7 @@ public class AppRunner {
         return event;
     }
 
-    private void bookTicket(){
+    private void bookTicket() {
         try {
             Event event = getEventByName();
             User user = getUserByEmail();
@@ -362,7 +351,7 @@ public class AppRunner {
                         System.out.println(String.format("Ticket %s created", ticket.toString()));
                     }
             );
-                bookingService.bookTickets(tickets);
+            bookingService.bookTickets(tickets);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + "\nPlease enter user valid data.");
@@ -370,24 +359,24 @@ public class AppRunner {
         }
     }
 
-    public void getTicketPrice(){
+    public void getTicketPrice() {
         Event event = getEventByName();
         User user = getUserByEmail();
         System.out.println("Enter date for event (yyyy-MM-dd)");
-        LocalDateTime date= dateTimeEditor.parseText(readFromConsole());
+        LocalDateTime date = dateTimeEditor.parseText(readFromConsole());
         System.out.println("Enter number of seat (ex: 23,24,25): ");
-        Set<Long> seatSet=parseStringToSetLong(readFromConsole());
-        double finalPrice= bookingService.getTicketsPrice(event,date,user,seatSet);
-        System.out.println(String.format("You buy tickets for %s \\$",finalPrice));
+        Set<Long> seatSet = parseStringToSetLong(readFromConsole());
+        double finalPrice = bookingService.getTicketsPrice(event, date, user, seatSet);
+        System.out.println(String.format("You buy tickets for %s \\$", finalPrice));
     }
 
     private void checkIsUserLucky() {
         System.out.println("Please enter user email");
-        User user= getUserByEmail();
-            if (userService.isLuckyCheck(user))
-                System.out.println("User is lucky");
-            System.out.println("User no lucky");
-        }
+        User user = getUserByEmail();
+        if (userService.isLuckyCheck(user))
+            System.out.println("User is lucky");
+        System.out.println("User no lucky");
+    }
 
 
 }
